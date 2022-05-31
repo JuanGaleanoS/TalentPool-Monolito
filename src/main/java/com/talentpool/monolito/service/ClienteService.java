@@ -3,7 +3,6 @@ package com.talentpool.monolito.service;
 import com.talentpool.monolito.model.Cliente;
 import com.talentpool.monolito.repository.IClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,26 +21,26 @@ public class ClienteService {
         repository.save(cliente);
     }
 
-    public void actualizarCliente(Integer id, Cliente cliente){
+    public void actualizarCliente(Long id, Cliente cliente){
         Cliente clienteActualizar = obtenerClientePorId(id);
 
         clienteActualizar.setNombres(cliente.getNombres());
         clienteActualizar.setApellidos(cliente.getApellidos());
-        clienteActualizar.setTipoIdentificacion(cliente.getTipoIdentificacion());
+        clienteActualizar.setTipo_identificacion(cliente.getTipo_identificacion());
         clienteActualizar.setIdentificacion(cliente.getIdentificacion());
-        clienteActualizar.setEdad(cliente.getEdad());
-        clienteActualizar.setCiudadNacimiento(cliente.getCiudadNacimiento());
+        clienteActualizar.setFecha_nacimiento(cliente.getFecha_nacimiento());
+        clienteActualizar.setCiudad_nacimiento(cliente.getCiudad_nacimiento());
         clienteActualizar.setFoto(cliente.getFoto());
 
         repository.save(clienteActualizar);
     }
 
-    public Cliente obtenerClientePorId(Integer id) throws ConfigDataResourceNotFoundException {
+    public Cliente obtenerClientePorId(Long id) {
         //validar si de verdad existe el registro con el id, con isPresent, para que lance una excepción
         return repository.findById(id).get();
     }
 
-    public void eliminarCliente(Integer id){
+    public void eliminarCliente(Long id){
         //Tener en cuenta que el borrado debe ir a borrar la imagen
         repository.deleteById(id);
     }

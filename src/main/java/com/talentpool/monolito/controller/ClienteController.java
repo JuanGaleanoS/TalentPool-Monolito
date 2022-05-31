@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/clientes")
+@CrossOrigin("*")
 public class ClienteController {
 
     @Autowired
@@ -22,7 +23,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> obtenerClientePorId(@PathVariable Integer id) {
+    public ResponseEntity<Cliente> obtenerClientePorId(@PathVariable Long id) {
         try {
             Cliente cliente = service.obtenerClientePorId(id);
             return new ResponseEntity<>(cliente, HttpStatus.OK);
@@ -37,7 +38,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarCliente(@PathVariable Integer id, @RequestBody Cliente cliente) {
+    public ResponseEntity<?> actualizarCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
         try {
             service.actualizarCliente(id, cliente);
             return new ResponseEntity<>(cliente, HttpStatus.OK);
@@ -47,7 +48,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
-    public void eliminarCliente(@PathVariable Integer id) {
+    public void eliminarCliente(@PathVariable Long id) {
         service.eliminarCliente(id);
     }
 
