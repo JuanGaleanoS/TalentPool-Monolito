@@ -5,13 +5,14 @@ import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClienteDTO {
+public class ClienteDTO implements Serializable {
 
     private Long id;
     @NotEmpty

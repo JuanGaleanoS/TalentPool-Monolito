@@ -38,6 +38,6 @@ public class Cliente {
     @JoinColumn(name = "id_ciudad_nacimiento", nullable = false)
     private Ciudad ciudadNacimiento;
 
-    @Column(name = "id_foto")
+    @Column(name = "id_foto", unique = true)
     private Long idFoto;
 }

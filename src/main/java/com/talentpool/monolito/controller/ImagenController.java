@@ -1,7 +1,6 @@
 package com.talentpool.monolito.controller;
 
 import com.talentpool.monolito.dto.ImagenDTO;
-import com.talentpool.monolito.model.Imagen;
 import com.talentpool.monolito.service.IImagenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
