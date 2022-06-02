@@ -14,8 +14,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class Cliente {
-    //GenerationType.IDENTITY Se basa en una columna de base de datos con incremento automático y
-    //permite que la base de datos genere un nuevo valor con cada operación de inserción.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,16 +26,18 @@ public class Cliente {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_tipo_identificacion", nullable = false)
-    private TipoIdentificacion tipo_identificacion;
+    private TipoIdentificacion tipoIdentificacion;
 
-    @Column(name = "identificacion", nullable = false, length = 50)
+    @Column(name = "identificacion", nullable = false, length = 50, unique = true)
     private String identificacion;
 
-    private LocalDate fecha_nacimiento;
+    @Column(name = "fecha_nacimiento", nullable = false)
+    private LocalDate fechaNacimiento;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_ciudad_nacimiento", nullable = false)
-    private Ciudad ciudad_nacimiento;
+    private Ciudad ciudadNacimiento;
 
-    private Long foto;
+    @Column(name = "id_foto")
+    private Long idFoto;
 }

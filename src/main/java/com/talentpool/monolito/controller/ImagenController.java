@@ -1,9 +1,8 @@
 package com.talentpool.monolito.controller;
 
 import com.talentpool.monolito.dto.ImagenDTO;
-import com.talentpool.monolito.model.Cliente;
 import com.talentpool.monolito.model.Imagen;
-import com.talentpool.monolito.service.ImagenService;
+import com.talentpool.monolito.service.IImagenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,23 +13,23 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/imagenes")
+@RequestMapping("/api/imagenes")
 @CrossOrigin("*")
 public class ImagenController {
 
     @Autowired
-    private ImagenService service;
+    private IImagenService iImagenService;
 
     @GetMapping
-    public List<Imagen> obtenerImagenes() {
-        return service.obtenerImagenes();
+    public List<ImagenDTO> obtenerImagenes() {
+        return iImagenService.obtenerImagenes();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Imagen> obtenerClientePorId(@PathVariable Integer id) {
+    public ResponseEntity<ImagenDTO> obtenerImagenPorId(@PathVariable Long id) {
         try {
-            Imagen imagen = service.obtenerImagenPorId(id);
-            return new ResponseEntity<>(imagen, HttpStatus.OK);
+            ImagenDTO imagenDTO = iImagenService.obtenerImagenPorId(id);
+            return new ResponseEntity<>(imagenDTO, HttpStatus.OK);
         } catch (Exception exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -38,19 +37,22 @@ public class ImagenController {
 
     @PostMapping
     public void guardarImagen(
-            @RequestParam(value = "id") Integer id,
-            @RequestParam(value = "contenido", required = false) MultipartFile file
+            @RequestParam(value = "idCliente") Long idCliente,
+            @RequestParam(value = "foto") MultipartFile file
     ) throws IOException {
-        service.guardarImagen(id, file);
+        iImagenService.guardarImagen(idCliente, file);
     }
 
-    /*@PutMapping("/{id}")
-    public ResponseEntity<?> actualizarImagen(@PathVariable Integer id, @Request) {
-        try {
-            service.actualizarCliente(id, cliente);
-            return new ResponseEntity<>(cliente, HttpStatus.OK);
-        } catch (Exception exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }*/
+    @PutMapping
+    public void actualizarImagen(
+            @RequestParam(value = "idFoto") Long idFoto,
+            @RequestParam(value = "foto") MultipartFile file
+    ) throws IOException {
+        iImagenService.actualizarImagen(idFoto, file);
+    }
+
+    @DeleteMapping("/{idFoto}")
+    public void eliminarImagen(@PathVariable Long idFoto) {
+        iImagenService.eliminarImagen(idFoto);
+    }
 }

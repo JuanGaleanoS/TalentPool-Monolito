@@ -4,14 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.constraints.NotEmpty;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ImagenDTO {
-
+public class TipoIdentificacionDTO {
+    @NotEmpty
     private Integer id;
-    private String imagen;
+    private String nombre;
 }
