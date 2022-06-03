@@ -1,5 +1,6 @@
 package com.talentpool.monolito.controller;
 
+import com.talentpool.monolito.custom.exceptions.BusinessClienteException;
 import com.talentpool.monolito.dto.ClienteDTO;
 import com.talentpool.monolito.service.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,66 +17,41 @@ import java.util.List;
 public class ClienteController {
 
     @Autowired
-    private IClienteService service;
+    private IClienteService iClienteService;
 
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> obtenerClientes() {
-        return new ResponseEntity<>(service.obtenerClientes(), HttpStatus.OK);
+        return new ResponseEntity<>(iClienteService.obtenerClientes(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClienteDTO> obtenerClientePorId(@PathVariable Long id) {
-        try {
-            return new ResponseEntity<>(service.obtenerClientePorId(id), HttpStatus.OK);
-        } catch (Exception exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> obtenerClientePorId(@PathVariable Long id) {
+        return new ResponseEntity<>(iClienteService.obtenerClientePorId(id), HttpStatus.OK);
     }
 
     @GetMapping("/{tipoIdentificacion}/{identificacion}")
-    public ResponseEntity<ClienteDTO> obtenerClientePorTipoEIdentificacion(
-            @PathVariable Long tipoIdentificacion,
-            @PathVariable String identificacion
-    ) {
-        try {
-            ClienteDTO clienteDTO = service.obtenerClientePorTipoEIdentificacion(tipoIdentificacion, identificacion);
-            return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
-        } catch (Exception exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<ClienteDTO> obtenerClientePorTipoEIdentificacion(@PathVariable Long tipoIdentificacion, @PathVariable String identificacion) {
+        return new ResponseEntity<>(iClienteService.obtenerClientePorTipoEIdentificacion(tipoIdentificacion, identificacion), HttpStatus.OK);
     }
 
     @GetMapping("/edad/{edad}")
     public ResponseEntity<List<ClienteDTO>> obtenerClientesMayoresIgual(@PathVariable Integer edad) {
-        try {
-            List<ClienteDTO> clienteDTO = service.obtenerClientesMayoresIgual(edad);
-            return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
-        } catch (Exception exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(iClienteService.obtenerClientesMayoresIgual(edad), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<?> guardarCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
-        return new ResponseEntity<>(service.guardarCliente(clienteDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(iClienteService.guardarCliente(clienteDTO), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<?> actualizarCliente(@RequestBody ClienteDTO clienteDTO) {
-        try {
-            return new ResponseEntity<>(service.actualizarCliente(clienteDTO), HttpStatus.CREATED);
-        } catch (Exception exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> actualizarCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
+        return new ResponseEntity<>(iClienteService.actualizarCliente(clienteDTO), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarCliente(@PathVariable Long id) {
-        try {
-            return new ResponseEntity<>(service.eliminarCliente(id), HttpStatus.OK);
-        } catch (Exception exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(iClienteService.eliminarCliente(id), HttpStatus.OK);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.talentpool.monolito.service;
 
+import com.talentpool.monolito.custom.exceptions.BusinessClienteException;
 import com.talentpool.monolito.dto.ClienteDTO;
 
 import java.util.List;
