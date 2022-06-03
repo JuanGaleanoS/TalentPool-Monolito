@@ -45,7 +45,7 @@ public class ClienteController {
 
     @PutMapping
     public ResponseEntity<?> actualizarCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
-        return new ResponseEntity<>(iClienteService.actualizarCliente(clienteDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(iClienteService.actualizarCliente(clienteDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
