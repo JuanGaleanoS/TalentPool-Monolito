@@ -1,6 +1,7 @@
 package com.talentpool.monolito.advice;
 
 import com.talentpool.monolito.custom.exceptions.BusinessClienteException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,12 @@ public class MyControllerAdvice {
     public ResponseEntity<BusinessClienteException> handlerExceptionClientes(BusinessClienteException businessClienteException, HttpServletRequest request) {
         BusinessClienteException errorInfo = new BusinessClienteException(businessClienteException.getMessage(), businessClienteException.getStatus(), request.getRequestURI());
         return new ResponseEntity<>(errorInfo, businessClienteException.getStatus());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<BusinessClienteException> handlerExceptionClientes(DataIntegrityViolationException dataIntegrityViolationException, HttpServletRequest request) {
+        BusinessClienteException errorInfo = new BusinessClienteException(dataIntegrityViolationException.getMostSpecificCause().toString(), HttpStatus.UNPROCESSABLE_ENTITY, request.getRequestURI());
+        return new ResponseEntity<>(errorInfo, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

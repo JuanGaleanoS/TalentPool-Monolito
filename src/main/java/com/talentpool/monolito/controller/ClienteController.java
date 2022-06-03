@@ -1,6 +1,5 @@
 package com.talentpool.monolito.controller;
 
-import com.talentpool.monolito.custom.exceptions.BusinessClienteException;
 import com.talentpool.monolito.dto.ClienteDTO;
 import com.talentpool.monolito.service.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
