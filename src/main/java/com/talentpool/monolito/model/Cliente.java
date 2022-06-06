@@ -40,4 +40,14 @@ public class Cliente {
 
     @Column(name = "id_foto", unique = true)
     private Long idFoto;
+
+    public boolean isValid() {
+        return this.id != null &
+                this.nombres != null &
+                this.apellidos != null &
+                this.tipoIdentificacion != null &
+                this.identificacion != null &
+                this.fechaNacimiento != null &
+                this.ciudadNacimiento != null;
+    }
 }

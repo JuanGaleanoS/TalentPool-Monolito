@@ -15,4 +15,6 @@ public interface IClienteRepository extends JpaRepository<Cliente, Long> {
     List<Cliente> findByFechaNacimientoLessThanEqual(LocalDate fechaEdad);
 
     Cliente findClienteByIdFoto(Long idFoto);
+
+    Cliente findClienteByIdentificacion(String identificacion);
 }

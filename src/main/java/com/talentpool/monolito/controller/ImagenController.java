@@ -20,38 +20,27 @@ public class ImagenController {
     private IImagenService iImagenService;
 
     @GetMapping
-    public List<ImagenDTO> obtenerImagenes() {
-        return iImagenService.obtenerImagenes();
+    public ResponseEntity<List<ImagenDTO>> obtenerImagenes() {
+        return new ResponseEntity<>(iImagenService.obtenerImagenes(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ImagenDTO> obtenerImagenPorId(@PathVariable Long id) {
-        try {
-            ImagenDTO imagenDTO = iImagenService.obtenerImagenPorId(id);
-            return new ResponseEntity<>(imagenDTO, HttpStatus.OK);
-        } catch (Exception exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(iImagenService.obtenerImagenPorId(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public void guardarImagen(
-            @RequestParam(value = "idCliente") Long idCliente,
-            @RequestParam(value = "foto") MultipartFile file
-    ) throws IOException {
-        iImagenService.guardarImagen(idCliente, file);
+    public ResponseEntity<String> guardarImagen(@RequestParam(value = "idCliente") Long idCliente, @RequestParam(value = "foto") MultipartFile file) throws IOException {
+        return new ResponseEntity<>(iImagenService.guardarImagen(idCliente, file), HttpStatus.OK);
     }
 
     @PutMapping
-    public void actualizarImagen(
-            @RequestParam(value = "idFoto") Long idFoto,
-            @RequestParam(value = "foto") MultipartFile file
-    ) throws IOException {
-        iImagenService.actualizarImagen(idFoto, file);
+    public ResponseEntity<String> actualizarImagen(@RequestParam(value = "idFoto") Long idFoto, @RequestParam(value = "foto") MultipartFile file) throws IOException {
+        return new ResponseEntity<>(iImagenService.actualizarImagen(idFoto, file), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{idFoto}")
-    public void eliminarImagen(@PathVariable Long idFoto) {
-        iImagenService.eliminarImagen(idFoto);
+    public ResponseEntity<String> eliminarImagen(@PathVariable Long idFoto) {
+        return new ResponseEntity<>(iImagenService.eliminarImagen(idFoto), HttpStatus.OK);
     }
 }

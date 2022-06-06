@@ -13,9 +13,9 @@ public interface IImagenService {
 
     ImagenDTO obtenerImagenPorId(Long id);
 
-    Long guardarImagen(Long idCliente, MultipartFile file) throws IOException;
+    String guardarImagen(Long idCliente, MultipartFile file) throws IOException;
 
-    void actualizarImagen(Long idFoto, MultipartFile file) throws IOException;
+    String actualizarImagen(Long idFoto, MultipartFile file) throws IOException;
 
-    void eliminarImagen(Long id);
+    String eliminarImagen(Long id);
 }
