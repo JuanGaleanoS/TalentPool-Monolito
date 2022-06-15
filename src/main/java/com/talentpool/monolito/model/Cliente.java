@@ -31,7 +31,7 @@ public class Cliente {
     @Column(name = "identificacion", nullable = false, length = 50, unique = true)
     private String identificacion;
 
-    @Column(name = "fecha_nacimiento", nullable = false)
+    @Column(name = "fecha_nacimiento")
     private LocalDate fechaNacimiento;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

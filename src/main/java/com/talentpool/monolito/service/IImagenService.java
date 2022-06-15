@@ -18,4 +18,6 @@ public interface IImagenService {
     String actualizarImagen(Long idFoto, MultipartFile file) throws IOException;
 
     String eliminarImagen(Long id);
+
+    Imagen getImagenPorId(Long idImagen);
 }

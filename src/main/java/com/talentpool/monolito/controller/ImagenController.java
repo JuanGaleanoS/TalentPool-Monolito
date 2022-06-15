@@ -31,12 +31,12 @@ public class ImagenController {
 
     @PostMapping
     public ResponseEntity<String> guardarImagen(@RequestParam(value = "idCliente") Long idCliente, @RequestParam(value = "foto") MultipartFile file) throws IOException {
-        return new ResponseEntity<>(iImagenService.guardarImagen(idCliente, file), HttpStatus.OK);
+        return new ResponseEntity<>(iImagenService.guardarImagen(idCliente, file), HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<String> actualizarImagen(@RequestParam(value = "idFoto") Long idFoto, @RequestParam(value = "foto") MultipartFile file) throws IOException {
-        return new ResponseEntity<>(iImagenService.actualizarImagen(idFoto, file), HttpStatus.CREATED);
+        return new ResponseEntity<>(iImagenService.actualizarImagen(idFoto, file), HttpStatus.OK);
     }
 
     @DeleteMapping("/{idFoto}")

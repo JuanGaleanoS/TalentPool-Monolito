@@ -2,6 +2,7 @@ package com.talentpool.monolito.service;
 
 import com.talentpool.monolito.custom.exceptions.BusinessClienteException;
 import com.talentpool.monolito.dto.ClienteDTO;
+import com.talentpool.monolito.model.Cliente;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface IClienteService {
     String actualizarCliente(ClienteDTO clienteDTO);
 
     String guardarCliente(ClienteDTO clienteDTO);
+
+    Cliente getClientePorId(Long idCliente);
 }

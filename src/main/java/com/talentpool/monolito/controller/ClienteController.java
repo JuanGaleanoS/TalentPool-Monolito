@@ -39,7 +39,7 @@ public class ClienteController {
     }
 
     @PostMapping
-    public ResponseEntity<?> guardarCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
+    public ResponseEntity<String> guardarCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
         return new ResponseEntity<>(iClienteService.guardarCliente(clienteDTO), HttpStatus.CREATED);
     }
 

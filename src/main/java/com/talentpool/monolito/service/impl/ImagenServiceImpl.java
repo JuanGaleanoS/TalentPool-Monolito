@@ -7,6 +7,7 @@ import com.talentpool.monolito.model.Cliente;
 import com.talentpool.monolito.model.Imagen;
 import com.talentpool.monolito.repository.IClienteRepository;
 import com.talentpool.monolito.repository.IImagenRepository;
+import com.talentpool.monolito.service.IClienteService;
 import com.talentpool.monolito.service.IImagenService;
 import com.talentpool.monolito.util.ObjectMapperUtils;
 import com.talentpool.monolito.util.SequenceGeneratorService;
@@ -47,7 +48,7 @@ public class ImagenServiceImpl implements IImagenService {
             throw new BusinessClienteException(IMAGENES_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
         }
 
-        return ObjectMapperUtils.mapAll(imagenRepository.findAll(), ImagenDTO.class);
+        return ObjectMapperUtils.mapAll(imagenList, ImagenDTO.class);
     }
 
     public ImagenDTO obtenerImagenPorId(Long id) {
@@ -61,6 +62,7 @@ public class ImagenServiceImpl implements IImagenService {
     public String guardarImagen(Long idCliente, MultipartFile file) throws IOException {
 
         log.info("Ejecución método guardarImagen");
+
         Cliente cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new BusinessClienteException(
                 String.format(CLIENTE_NOT_FOUND_MESSAGE, idCliente),
                 HttpStatus.NOT_FOUND
@@ -97,6 +99,7 @@ public class ImagenServiceImpl implements IImagenService {
     public String eliminarImagen(Long idImagen) {
 
         log.info("Ejecución método actualizarImagen");
+
         getImagenPorId(idImagen);
         imagenRepository.deleteById(idImagen);
 

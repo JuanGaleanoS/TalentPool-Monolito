@@ -6,6 +6,7 @@ import com.talentpool.monolito.model.Cliente;
 import com.talentpool.monolito.model.TipoIdentificacion;
 import com.talentpool.monolito.repository.IClienteRepository;
 import com.talentpool.monolito.service.IClienteService;
+import com.talentpool.monolito.service.IImagenService;
 import com.talentpool.monolito.util.ObjectMapperUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,7 @@ public class ClienteServiceImpl implements IClienteService {
     private static final String CLIENTE_SUCCESS_DELETE = "El cliente con id %d se eliminó exitosamente";
     private final IClienteRepository clienteRepository;
     private final ModelMapper modelMapper;
-    private final ImagenServiceImpl imageService;
+    private final IImagenService iImagenService;
 
     @Override
     public List<ClienteDTO> obtenerClientes() {
@@ -69,7 +70,7 @@ public class ClienteServiceImpl implements IClienteService {
             return ObjectMapperUtils.map(cliente, ClienteDTO.class);
 
         } catch (Exception e) {
-            log.error("Error al obtener al cliente con tipo {} e identificación {}", tipoIdentificacion, identificacion);
+            log.error("Error al obtener al cliente con tipo {} e identificación {}, error {}", tipoIdentificacion, identificacion, e);
             throw new BusinessClienteException(
                     String.format(CLIENTE_TIPO_IDEN_NOT_FOUND_MESSAGE, identificacion, tipoIdentificacion),
                     HttpStatus.NOT_FOUND
@@ -83,17 +84,17 @@ public class ClienteServiceImpl implements IClienteService {
         log.info("Ejecución método obtenerClientesMayoresIgual");
         LocalDate fechaEdad = LocalDate.now().minusYears(edad);
 
-        try {
-            List<Cliente> clienteList = clienteRepository.findByFechaNacimientoLessThanEqual(fechaEdad);
-            return ObjectMapperUtils.mapAll(clienteList, ClienteDTO.class);
+        List<Cliente> clienteList = clienteRepository.findByFechaNacimientoLessThanEqual(fechaEdad);
 
-        } catch (Exception e) {
+        if (clienteList.isEmpty()) {
             log.error("Error al obtener al cliente con edad mayor o igual a {}", edad);
             throw new BusinessClienteException(
                     String.format(CLIENTE_EDAD_NOT_FOUND_MESSAGE, edad),
                     HttpStatus.NOT_FOUND
             );
         }
+
+        return ObjectMapperUtils.mapAll(clienteList, ClienteDTO.class);
     }
 
     @Override
@@ -107,7 +108,7 @@ public class ClienteServiceImpl implements IClienteService {
             log.error("Error al guardar cliente con documento {}, ya existe", clienteDTO.getIdentificacion());
             throw new BusinessClienteException(
                     String.format(CLIENTE_DOCUMENT_EXISTS, clienteDTO.getIdentificacion()),
-                    HttpStatus.NOT_FOUND
+                    HttpStatus.BAD_REQUEST
             );
         }
 
@@ -122,6 +123,8 @@ public class ClienteServiceImpl implements IClienteService {
 
         log.info("Ejecución método actualizarCliente DTO {}", clienteDTO.toString());
         Cliente cliente = modelMapper.map(clienteDTO, Cliente.class);
+
+        getClientePorId(clienteDTO.getId());
         clienteRepository.save(cliente);
 
         return String.format(CLIENTE_SUCCESS_UPDATE, cliente.getId());
@@ -136,7 +139,7 @@ public class ClienteServiceImpl implements IClienteService {
 
         if (cliente.getIdFoto() != null) {
             log.info("Cliente con foto");
-            imageService.eliminarImagen(cliente.getIdFoto());
+            iImagenService.eliminarImagen(cliente.getIdFoto());
         }
 
         clienteRepository.deleteById(id);
